@@ -11,10 +11,9 @@ const { sep } = require('path')
  * @returns false|string
  */
 function ppidChanged(filename) {
-    filename = filename ||
-        `${process.cwd().split(sep).pop()}-${checksum(process.cwd())}.pid`
-
-    const path = tmpdir() + sep + filename
+    const path = filename ||
+        `${tmpdir() + sep + process.cwd().split(sep).pop()}-${checksum(process.cwd())}.pid`
+    
     const lastPpid = fs.existsSync(path) && fs.readFileSync(path, 'utf8')
     fs.writeFileSync(path, process.ppid, 'utf8')
     return lastPpid != process.ppid ? lastPpid : false
