@@ -15,7 +15,11 @@ function ppidChanged(filename) {
         `${tmpdir() + sep + process.cwd().split(sep).pop()}-${checksum(process.cwd())}.pid`
     
     const lastPpid = fs.existsSync(path) && fs.readFileSync(path, 'utf8')
-    fs.writeFileSync(path, process.ppid, 'utf8')
+    let ppid = process.ppid
+    if (typeof ppid == 'number') {
+      ppid = ppid.toString()
+    }
+    fs.writeFileSync(path, ppid, 'utf8')
     return lastPpid != process.ppid ? lastPpid : false
 }
 
